@@ -15,4 +15,4 @@ $router->get('/', function () use ($router) {
     return redirect('api/swagger-demo');
 });
 
-$router->get('/example', 'ExampleController@index');
+$router->get('/users', 'UsersController@index');
