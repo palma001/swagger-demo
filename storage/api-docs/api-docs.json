@@ -10,10 +10,56 @@
     },
     "servers": [
         {
-            "url": "https://swagger-demo-style.herokuapp.com"
+            "url": "http://localhost:8000"
         }
     ],
     "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login",
+                "description": "Login Users",
+                "operationId": "App\\Http\\Controllers\\LoginController::login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Post resource created",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
@@ -56,15 +102,15 @@
         "schemas": {
             "Users": {
                 "properties": {
-                    "name": {
-                        "description": "The Users name",
+                    "email": {
+                        "description": "The Post's email",
                         "required": [
                             "true"
                         ],
                         "type": "string"
                     },
-                    "email": {
-                        "description": "The Users email",
+                    "password": {
+                        "description": "The email password",
                         "required": [
                             "true"
                         ],

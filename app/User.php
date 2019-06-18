@@ -13,23 +13,18 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *   schema="Users",
  *   type="object",
  *   @OA\Property(
- *  property="name",
- *  required={"true"},
- *  type="string",
- *  description="The Users name"
- *   ),
- *   @OA\Property(
  *  property="email",
  *  required={"true"},
  *  type="string",
- *  description="The Users email"
+ *  description="The Post's email"
+ *   ),
+ *   @OA\Property(
+ *  property="password",
+ *  type="string",
+ *  required={"true"},
+ *  description="The email password"
  *   ),
  * )
- */
-/**
- * Create a new controller instance.
- *
- * @return void
  */
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
@@ -51,6 +46,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token'
     ];
 }
