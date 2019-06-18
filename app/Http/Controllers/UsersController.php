@@ -6,11 +6,6 @@ use App\User;
 class UsersController extends Controller
 {
 
-    public function __construct()
-    {
-        //
-    }
-
   /**
     * @OA\Get(
     *   path="/users",
@@ -40,9 +35,9 @@ class UsersController extends Controller
     * @return \Illuminate\Http\Response
     */
     public function index() {
-        $user = new User:all();
+        $users = User::all();
         if ($users) {
-            return response()->json($user, 200);
+            return response()->json($users, 200);
         } else {
             return response()->json(['msj' => 'Error al listar'], 500);
         }
