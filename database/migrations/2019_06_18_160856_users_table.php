@@ -20,7 +20,7 @@ class UsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string('api_token')->unique();
+            $table->string('api_token', 60)->unique();
         });
     }
 
