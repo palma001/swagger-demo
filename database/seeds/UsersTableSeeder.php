@@ -15,9 +15,13 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => Str::random(10),
+            'lastname' => Str::random(10),
+            'ci' => Str::random(10),
             'email' => Str::random(10).'@gmail.com',
-            'api_token' => Str::random(50),
+            'tlf' => Str::random(10),
+            'state' => Str::random(10),
             'password' => 123456,
+            'api_token' => Str::random(50),
         ]);
     }
 }
