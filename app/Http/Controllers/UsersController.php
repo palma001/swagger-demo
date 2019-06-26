@@ -36,11 +36,20 @@ class UsersController extends Controller
     * @return \Illuminate\Http\Response
     */
     public function index(Request $request) {
-        $users =  new UsersCollection(User::latest()->paginate(10));
-        if ($users) {
-            return $users;
+        if ($request->paginate) {
+            $users =  new UsersCollection(User::latest()->paginate($request->perPage));
+            if ($users) {
+                return $users;
+            } else {
+                return response()->json(['msj' => 'Error al listar'], 500);
+            }
         } else {
-            return response()->json(['msj' => 'Error al listar'], 500);
+            $users =  new UsersCollection(User::all());
+            if ($users) {
+                return $users;
+            } else {
+                return response()->json(['msj' => 'Error al listar'], 500);
+            }
         }
     }
 }
