@@ -13,7 +13,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
  *       email="swagger@gmail.com"
  *   )
  * )
- * @OA\Server(url="https://swagger-demo-style.herokuapp.com/api/swagger-demo")
+ * @OA\Server(url="https://swagger-demo-style.herokuapp.com")
  */
 
 class Controller extends BaseController

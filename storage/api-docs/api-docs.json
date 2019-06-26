@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "https://swagger-demo-style.herokuapp.com/api/swagger-demo"
+            "url": "https://swagger-demo-style.herokuapp.com"
         }
     ],
     "paths": {
