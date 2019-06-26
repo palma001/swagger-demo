@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,4 +14,4 @@ $router->get('/', function () use ($router) {
     return redirect('api/swagger-demo');
 });
 
-$router->get('/users', 'UsersController@index');
+Route::get('users', 'UsersController@index');

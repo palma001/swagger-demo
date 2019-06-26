@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
-
+use App\Http\Resources\UsersCollection;
 class UsersController extends Controller
 {
 
@@ -36,9 +36,9 @@ class UsersController extends Controller
     * @return \Illuminate\Http\Response
     */
     public function index(Request $request) {
-        $users = User::all();
+        $users =  new UsersCollection(User::latest()->paginate(10));
         if ($users) {
-            return response()->json($users, 200);
+            return $users;
         } else {
             return response()->json(['msj' => 'Error al listar'], 500);
         }
