@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "https://swagger-demo-style.herokuapp.com"
+            "url": "http://localhost:8000"
         }
     ],
     "paths": {

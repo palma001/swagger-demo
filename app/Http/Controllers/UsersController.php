@@ -37,7 +37,7 @@ class UsersController extends Controller
     */
     public function index(Request $request) {
         if ($request->paginate) {
-            $users =  new UsersCollection(User::latest()->paginate($request->perPage));
+            $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $rquest->sortOrder)->paginate($request->rowsPerPage));
             if ($users) {
                 return $users;
             } else {
