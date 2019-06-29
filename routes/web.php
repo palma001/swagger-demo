@@ -14,4 +14,4 @@ $router->get('/', function () use ($router) {
     return redirect('api/swagger-demo');
 });
 
-Route::get('users', 'UsersController@index');
+Route::get('condominiums/users', 'UsersController@index');

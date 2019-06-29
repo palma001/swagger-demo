@@ -7,7 +7,7 @@ use App\Http\Resources\UsersCollection;
 class UsersController extends Controller
 {
 
-  /**
+   /**
     * @OA\Get(
     *   path="/users",
     *   summary="Lists available Users",
@@ -34,17 +34,17 @@ class UsersController extends Controller
     * Display a listing of the resource.
     *
     * @return \Illuminate\Http\Response
-    */
+  */
     public function index(Request $request) {
         if ($request->paginate) {
-            $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $rquest->sortOrder)->paginate($request->rowsPerPage));
+            $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $request->sortOrder)->paginate($request->perPage));
             if ($users) {
                 return $users;
             } else {
                 return response()->json(['msj' => 'Error al listar'], 500);
             }
         } else {
-            $users =  new UsersCollection(User::all());
+            $users =  $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $request->sortOrder));
             if ($users) {
                 return $users;
             } else {
