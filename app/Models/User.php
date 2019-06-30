@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -27,7 +27,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * )
  */
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Base implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -39,6 +39,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'name', 'lastname', 'ci', 'email', 'tlf', 'state'
     ];
+    
+    /**
+     * The attributes that are filterable.
+     *
+     * @var array
+     */
+
+    public static $filterable = ['name', 'lastname', 'ci', 'email', 'state'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -48,4 +56,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password', 'remember_token', 'api_token'
     ];
+
 }

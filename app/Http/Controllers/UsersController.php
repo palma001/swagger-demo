@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use App\Http\Resources\UsersCollection;
 class UsersController extends Controller
 {
@@ -36,20 +36,12 @@ class UsersController extends Controller
     * @return \Illuminate\Http\Response
   */
     public function index(Request $request) {
-        if ($request->paginate) {
-            $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $request->sortOrder)->paginate($request->perPage));
-            if ($users) {
-                return $users;
-            } else {
-                return response()->json(['msj' => 'Error al listar'], 500);
-            }
-        } else {
-            $users =  $users =  new UsersCollection(User::latest()->orderBy($request->sortField, $request->sortOrder));
-            if ($users) {
-                return $users;
-            } else {
-                return response()->json(['msj' => 'Error al listar'], 500);
-            }
-        }
+
+
+        $q = User::select();
+
+        $users = User::search($request->toArray(), $q);
+
+        return  new UsersCollection($users);
     }
 }
