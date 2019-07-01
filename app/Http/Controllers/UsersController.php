@@ -1,7 +1,7 @@
 <?php
-BracketHighlighter 
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UsersCollection;
@@ -98,7 +98,6 @@ class UsersController extends Controller
     * @return \Illuminate\Http\Response
   */
     public function index(Request $request) {
-
 
         $q = User::select();
 
