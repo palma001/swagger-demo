@@ -13,16 +13,16 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *   schema="Users",
  *   type="object",
  *   @OA\Property(
- *  property="email",
- *  required={"true"},
- *  type="string",
- *  description="The Post's email"
+ *       property="email",
+ *       required={"true"},
+ *       type="string",
+ *       description="The Post's email"
  *   ),
  *   @OA\Property(
- *  property="password",
- *  type="string",
- *  required={"true"},
- *  description="The email password"
+ *       property="password",
+ *       type="string",
+ *       required={"true"},
+ *       description="The email password"
  *   ),
  * )
  */

@@ -18,23 +18,22 @@ class Base extends Model
 
     public static function search (array $data = array(), $q) {
 
-        $fields = json_decode($data['dataSearch'], true);
-
-        $fields = array_only($fields, static::$filterable);
-
-        $fields = array_filter($fields, 'strlen');
-
-        foreach ($fields as $field => $value) {
-            if (isset($fields[$field])) {
-                $q->orWhere($field, 'LIKE', "%$fields[$field]%")->orderBy($data['sortField'], $data['sortOrder']);
-            }
-        }
+		if (!empty($data['dataSearch'])) {
+        	$fields = json_decode($data['dataSearch'], true);
+        	$fields = array_filter($fields, 'strlen');
+        	$fields = array_only($fields, static::$filterable);
+	        foreach ($fields as $field => $value) {
+	            if (isset($fields[$field])) {
+	                $q->orWhere($field, 'LIKE', "%$fields[$field]%")->orderBy($data['sortField'], $data['sortOrder']);
+	            }
+	        }
+    	}
 
         if ($data['paginate'] === "true") {
         	return $q->paginate($data['perPage']);
         } else {
         	return $q->get();
         }
-    }
+	}
 
 }
