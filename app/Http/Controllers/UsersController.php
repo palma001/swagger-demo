@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -17,7 +17,6 @@ class UsersController extends Controller
     *   security={{"passport": {"*"}}},
     *   @OA\Parameter(
     *       name="paginate",
-    *       allowEmptyValue=true,
     *       in="query",
     *       description="paginate",
     *       required=false,
@@ -31,7 +30,6 @@ class UsersController extends Controller
     *   @OA\Parameter(
     *       name="dataSearch",
     *       in="query",
-    *       allowEmptyValue=true,
     *       description="Post resource name",
     *       required=false,
     *       @OA\Schema(
@@ -42,7 +40,6 @@ class UsersController extends Controller
     *   @OA\Parameter(
     *       name="sortField",
     *       in="query",
-    *       allowEmptyValue=true,
     *       description="Sort field",
     *       required=false,
     *       @OA\Schema(
@@ -56,7 +53,6 @@ class UsersController extends Controller
     *       name="sortOrder",
     *       in="query",
     *       description="Sort order field",
-    *       allowEmptyValue=true,
     *       @OA\Schema(
     *           title="sortOrder",
     *           example="asc",
@@ -67,7 +63,6 @@ class UsersController extends Controller
     *   @OA\Parameter(
     *       name="perPage",
     *       in="query",
-    *       allowEmptyValue=true,
     *       description="Sort order field",
     *       @OA\Schema(
     *           title="perPage",
@@ -100,7 +95,7 @@ class UsersController extends Controller
     public function index(Request $request) {
 
         $q = User::select();
-
+        
         $users = User::search($request->toArray(), $q);
 
         return  new UsersCollection($users);

@@ -74,7 +74,6 @@
                         "in": "query",
                         "description": "paginate",
                         "required": false,
-                        "allowEmptyValue": true,
                         "schema": {
                             "title": "Paginate",
                             "description": "The unique identifier of a Post resource",
@@ -87,7 +86,6 @@
                         "in": "query",
                         "description": "Post resource name",
                         "required": false,
-                        "allowEmptyValue": true,
                         "schema": {
                             "description": "The unique identifier of a Post resource",
                             "type": "string"
@@ -98,7 +96,6 @@
                         "in": "query",
                         "description": "Sort field",
                         "required": false,
-                        "allowEmptyValue": true,
                         "schema": {
                             "title": "name",
                             "description": "The unique identifier of a Post resource",
@@ -110,7 +107,6 @@
                         "name": "sortOrder",
                         "in": "query",
                         "description": "Sort order field",
-                        "allowEmptyValue": true,
                         "schema": {
                             "title": "sortOrder",
                             "description": "The unique identifier of a Post resource",
@@ -122,7 +118,6 @@
                         "name": "perPage",
                         "in": "query",
                         "description": "Sort order field",
-                        "allowEmptyValue": true,
                         "schema": {
                             "title": "perPage",
                             "description": "The unique identifier of a Post resource",
