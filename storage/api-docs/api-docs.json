@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/condominiums/"
+            "url": "https://swagger-demo-style.herokuapp.com/condominiums"
         }
     ],
     "paths": {
