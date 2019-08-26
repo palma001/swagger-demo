@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'email' => Str::random(10).'@gmail.com',
             'tlf' => Str::random(10),
             'state' => Str::random(10),
-            'password' => 123456,
+            'password' => Hash::make('secret'),
             'api_token' => Str::random(50),
         ]);
     }

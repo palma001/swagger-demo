@@ -10,19 +10,61 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 /**
  * @OA\Schema(
- *   schema="Users",
+ *   schema="Login",
  *   type="object",
  *   @OA\Property(
  *       property="email",
  *       required={"true"},
  *       type="string",
- *       description="The Post's email"
+ *       description="The Users email"
  *   ),
  *   @OA\Property(
  *       property="password",
  *       type="string",
  *       required={"true"},
  *       description="The email password"
+ *   ),
+ * )
+ */
+/**
+ * @OA\Schema(
+ *   schema="User",
+ *   type="object",
+ *   @OA\Property(
+ *       property="lastname",
+ *       type="string",
+ *       required={"true"},
+ *       description="The user lastname"
+ *   ),
+ *   @OA\Property(
+ *       property="ci",
+ *       type="string",
+ *       required={"true"},
+ *       description="The user ci"
+ *   ),
+ *   @OA\Property(
+ *       property="email",
+ *       required={"true"},
+ *       type="string",
+ *       description="The Users email"
+ *   ),
+ *   @OA\Property(
+ *       property="tlf",
+ *       type="string",
+ *       required={"true"},
+ *       description="The Users tlf"
+ *   ),
+ *   @OA\Property(
+ *       property="state",
+ *       type="string",
+ *       required={"true"},
+ *       description="The Users state"
+ *   ),
+ *   @OA\Property(
+ *       property="password",
+ *       type="string",
+ *       required={"true"},
+ *       description="The Users password"
  *   ),
  * )
  */
