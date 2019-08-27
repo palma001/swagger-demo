@@ -276,6 +276,102 @@
                         ]
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Removes a User resource",
+                "description": "Removes a User resource",
+                "operationId": "App\\Http\\Controllers\\UsersController::destroy",
+                "parameters": [
+                    {
+                        "name": "documents",
+                        "in": "path",
+                        "description": "The User resource documents",
+                        "required": true,
+                        "schema": {
+                            "description": "The unique identifier of a User resource",
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The resource has been deleted",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Restore a User resource",
+                "description": "Restore a User resource",
+                "operationId": "App\\Http\\Controllers\\UsersController::restore",
+                "parameters": [
+                    {
+                        "name": "documents",
+                        "in": "path",
+                        "description": "The User resource documents",
+                        "required": true,
+                        "schema": {
+                            "description": "The unique identifier of a User resource",
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The resource has been deleted",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             }
         }
     },

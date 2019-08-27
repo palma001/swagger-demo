@@ -14,7 +14,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
  *   )
  * )
  * @OA\Server(url="http://localhost:8000/condominiums")
- * @OA\Server(url="https://localhost:8000/condominiums")
+ * @OA\Server(url="https://swagger-demo-style.herokuapp.com/")
  */
 
 class Controller extends BaseController

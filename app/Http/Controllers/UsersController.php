@@ -13,15 +13,21 @@ class UsersController extends Controller
 {
     /**
      * validate data of request
-     * @param  [Request] $request dta
-     * @return [type]          [description]
+     * @param  [Request] $request data
+     * @param  [String] $documents number documents
+     * @return [Function]  function validator
      */
-    private function validation ($request) {
+    private function validation ($request, $documents) {
+        if ($documents !== null) {
+            $unique = Rule::unique('users')->ignore($request->documents, 'documents');
+        } else {
+            $unique = 'unique:users';
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'lastname' => 'required',
-            'documents' => ['required', Rule::unique('users')->ignore($request->documents, 'documents')],
-            'email' => ['email', 'required', Rule::unique('users')->ignore($request->documents, 'documents')],
+            'documents' => ['required', 'max:10', $unique],
+            'email' => ['email', 'required', $unique],
             'phone' => 'required',
             'password' => 'required|min:8'
         ]);
@@ -174,8 +180,8 @@ class UsersController extends Controller
         */
     public function store(Request $request) {
         try {
-            if ($this->validation($request)->fails()) {
-                $errors = $this->validation($request)->errors();
+            if ($this->validation($request, null)->fails()) {
+                $errors = $this->validation($request, null)->errors();
                 return response()->json($errors->all(), 201);
             } else {
                 $user = new User;
@@ -187,7 +193,7 @@ class UsersController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->api_token = null;
                 $user->save();
-                return response()->json($user, 201);
+                return response()->json($user, 200);
             }
         } catch (Exception $e) {
             return response()->json($e);
@@ -236,22 +242,126 @@ class UsersController extends Controller
         * Update the specified resource in storage.
         *
         * @param \Illuminate\Http\Request $request
-        * @param  int  $id
+        * @param  int  $documents
         *
         * @return \Illuminate\Http\Response
         */
-    public function update(Request $request, $id)
+    public function update(Request $request, $documents)
     {
         try {
-            if ($this->validation($request)->fails()) {
-                $errors = $this->validation($request)->errors();
+            if ($this->validation($request, $documents)->fails()) {
+                $errors = $this->validation($request, $documents)->errors();
                 return response()->json($errors->all(), 201);
             } else {
-                User::where('documents', $id)->update($request->all());
+                User::where('documents', $documents)->update($request->all());
                 return response()->json($request->all(), 201);
             }
         } catch (Exception $e) {
             return response()->json($e);
+        }
+    }
+    /**
+        * @OA\Delete(
+        *   path="/users/{documents}",
+        *   summary="Removes a User resource",
+        *   description="Removes a User resource",
+        *   tags={"Users"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\Parameter(
+        *   name="documents",
+        *   in="path",
+        *   description="The User resource documents",
+        *   required=true,
+        *   @OA\Schema(
+        *       type="string",
+        *       description="The unique identifier of a User resource"
+        *   )
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=204,
+        *   description="The resource has been deleted"
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=401,
+        *   description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response="default",
+        *   description="an ""unexpected"" error"
+        *   )
+        * )
+        *
+        * Remove the specified resource from storage.
+        *
+        * @param  int  $documents
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function destroy($documents)
+    {
+        $user = User::where('documents', $documents)
+            ->where('status', 'y')
+            ->first();
+        if ($user) {
+            User::where('documents', $documents)->update(['status' => 'n']);
+            return response()->json(['status' => 'success', 'message' => 'user deleted'], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
+        }
+    }
+    /**
+        * @OA\patch(
+        *   path="/users/{documents}",
+        *   summary="Restore a user resource",
+        *   description="Restore a user resource",
+        *   tags={"Users"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\Parameter(
+        *   name="documents",
+        *   in="path",
+        *   description="The user resource documents",
+        *   required=true,
+        *   @OA\Schema(
+        *       type="string",
+        *       description="The unique identifier of a user resource"
+        *   )
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=204,
+        *   description="The resource has been deleted"
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=401,
+        *   description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response="default",
+        *   description="an ""unexpected"" error"
+        *   )
+        * )
+        *
+        * Remove the specified resource from storage.
+        *
+        * @param  int  $documents
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function restore($documents)
+    {
+        $user = User::where('documents', $documents)
+            ->where('status', 'n')
+            ->first();
+        if ($user) {
+            User::where('documents', $documents)->update(['status' => 'y']);
+            return response()->json(['status' => 'success', 'message' => 'user restored'], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
         }
     }
 }

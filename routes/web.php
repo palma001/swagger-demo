@@ -19,5 +19,7 @@ $router->group(['', ''], function () use ($router) {
 		Route::get('users/', 'UsersController@index');
 		Route::post('users/', 'UsersController@store');
 		Route::put('users/{documents}', 'UsersController@update');
+		Route::delete('users/{documents}', 'UsersController@destroy');
+		Route::patch('users/{documents}', 'UsersController@restore');
 	});
 });
