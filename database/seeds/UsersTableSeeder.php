@@ -17,10 +17,9 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => Str::random(10),
             'lastname' => Str::random(10),
-            'ci' => Str::random(10),
+            'documets' => Str::random(10),
             'email' => Str::random(10).'@gmail.com',
-            'tlf' => Str::random(10),
-            'state' => Str::random(10),
+            'phone' => Str::random(10),
             'password' => Hash::make('secret'),
             'api_token' => Str::random(50),
         ]);

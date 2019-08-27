@@ -9,13 +9,7 @@ use Firebase\JWT\ExpiredException;
 
 class AuthenticateController extends Controller
 {
-    public function __construct()
-    {
-
-     //  $this->middleware('auth:api');
-
-    }
-        /**
+    /**
      * Create a new token.
      * 
      * @param  \App\User   $user
@@ -34,42 +28,42 @@ class AuthenticateController extends Controller
         return JWT::encode($payload, env('JWT_SECRET'));
     }
 
-  /**
-    * @OA\Post(
-    *   path="/authenticate",
-    *   summary="Authenticate",
-    *   description="Authenticate Users",
-    *   tags={"Users"},
-    *   security={{"passport": {"*"}}},
-    *   @OA\RequestBody(
-    *   @OA\MediaType(
-    *       mediaType="application/json",
-    *       @OA\Schema(ref="#/components/schemas/Login")
-    *   )
-    *   ),
-    *   @OA\Response(
-    *   @OA\MediaType(mediaType="application/json"),
-    *   response=200,
-    *   description="The Post resource created",
-    *   ),
-    *   @OA\Response(
-    *   @OA\MediaType(mediaType="application/json"),
-    *   response=401,
-    *   description="Unauthenticated."
-    *   ),
-    *   @OA\Response(
-    *   @OA\MediaType(mediaType="application/json"),
-    *   response="default",
-    *   description="an ""unexpected"" error",
-    *   )
-    * )
-    *
-    * Store a newly created resource in storage.
-    *
-    * @param \Illuminate\Http\Request $request
-    *
-    * @return \Illuminate\Http\Response
-    */
+    /**
+        * @OA\Post(
+        *   path="/authenticate",
+        *   summary="Authenticate",
+        *   description="Authenticate Users",
+        *   tags={"Users"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\RequestBody(
+        *       @OA\MediaType(
+        *           mediaType="application/json",
+        *           @OA\Schema(ref="#/components/schemas/Login")
+        *       )
+        *   ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response=200,
+        *       description="The Post resource created",
+        *   ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response=401,
+        *       description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response="default",
+        *       description="an ""unexpected"" error",
+        *   )
+        * )
+        *
+        * Store a newly created resource in storage.
+        *
+        * @param \Illuminate\Http\Request $request
+        *
+        * @return \Illuminate\Http\Response
+        */
     public function authenticate(Request $request) {
         $user = User::where('email', $request->email)->first();
         if (count($user) > 0) {

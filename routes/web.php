@@ -15,7 +15,9 @@ $router->get('/', function () use ($router) {
 
 $router->group(['', ''], function () use ($router) {
 	$router->group(['prefix' => 'condominiums/'], function ($router) {
-		Route::get('users/', 'UsersController@index');
 		Route::post('authenticate/', 'AuthenticateController@authenticate');
+		Route::get('users/', 'UsersController@index');
+		Route::post('users/', 'UsersController@store');
+		Route::put('users/{documents}', 'UsersController@update');
 	});
 });

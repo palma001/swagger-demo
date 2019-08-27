@@ -11,6 +11,9 @@
     "servers": [
         {
             "url": "http://localhost:8000/condominiums"
+        },
+        {
+            "url": "https://localhost:8000/condominiums"
         }
     ],
     "paths": {
@@ -76,7 +79,7 @@
                         "required": false,
                         "schema": {
                             "title": "Paginate",
-                            "description": "The unique identifier of a Post resource",
+                            "description": "The unique identifier of a User resource",
                             "type": "boolean",
                             "example": "true"
                         }
@@ -84,10 +87,10 @@
                     {
                         "name": "dataSearch",
                         "in": "query",
-                        "description": "Post resource name",
+                        "description": "User resource name",
                         "required": false,
                         "schema": {
-                            "description": "The unique identifier of a Post resource",
+                            "description": "The unique identifier of a User resource",
                             "type": "string"
                         }
                     },
@@ -98,7 +101,7 @@
                         "required": false,
                         "schema": {
                             "title": "name",
-                            "description": "The unique identifier of a Post resource",
+                            "description": "The unique identifier of a User resource",
                             "type": "string",
                             "example": "name"
                         }
@@ -109,7 +112,7 @@
                         "description": "Sort order field",
                         "schema": {
                             "title": "sortOrder",
-                            "description": "The unique identifier of a Post resource",
+                            "description": "The unique identifier of a User resource",
                             "type": "string",
                             "example": "asc"
                         }
@@ -171,6 +174,108 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Creates a new user",
+                "description": "Creates a new user",
+                "operationId": "App\\Http\\Controllers\\UsersController::store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The User resource created",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/users/{documents}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Updates a Users resource",
+                "description": "Updates a Users resource by the documents",
+                "operationId": "App\\Http\\Controllers\\UsersController::update",
+                "parameters": [
+                    {
+                        "name": "documents",
+                        "in": "path",
+                        "description": "User resource id",
+                        "required": true,
+                        "schema": {
+                            "description": "The unique identifier of a User resource",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The User resource updated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             }
         }
     },
@@ -197,6 +302,13 @@
             },
             "User": {
                 "properties": {
+                    "name": {
+                        "description": "The user name",
+                        "required": [
+                            "true"
+                        ],
+                        "type": "string"
+                    },
                     "lastname": {
                         "description": "The user lastname",
                         "required": [
@@ -204,8 +316,8 @@
                         ],
                         "type": "string"
                     },
-                    "ci": {
-                        "description": "The user ci",
+                    "documents": {
+                        "description": "The user documents",
                         "required": [
                             "true"
                         ],
@@ -218,15 +330,8 @@
                         ],
                         "type": "string"
                     },
-                    "tlf": {
-                        "description": "The Users tlf",
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string"
-                    },
-                    "state": {
-                        "description": "The Users state",
+                    "phone": {
+                        "description": "The Users phone",
                         "required": [
                             "true"
                         ],

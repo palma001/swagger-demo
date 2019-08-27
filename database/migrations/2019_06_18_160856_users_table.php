@@ -17,12 +17,11 @@ class UsersTable extends Migration
             $table->bigIncrements('user_id');
             $table->string('name');
             $table->string('lastname');
-            $table->string('ci');
-            $table->string('email')->unique();
-            $table->string('tlf');
-            $table->string('state');
-            $table->string('password');
-            $table->string('api_token', 60)->unique();
+            $table->string('documents', 10)->unique();
+            $table->string('email', 50)->unique();
+            $table->string('phone');
+            $table->string('password', 200);
+            $table->string('api_token', 200)->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });

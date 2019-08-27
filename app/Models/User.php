@@ -26,10 +26,17 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *   ),
  * )
  */
+
 /**
  * @OA\Schema(
  *   schema="User",
  *   type="object",
+ *   @OA\Property(
+ *       property="name",
+ *       type="string",
+ *       required={"true"},
+ *       description="The user name"
+ *   ),
  *   @OA\Property(
  *       property="lastname",
  *       type="string",
@@ -37,10 +44,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *       description="The user lastname"
  *   ),
  *   @OA\Property(
- *       property="ci",
+ *       property="documents",
  *       type="string",
  *       required={"true"},
- *       description="The user ci"
+ *       description="The user documents"
  *   ),
  *   @OA\Property(
  *       property="email",
@@ -49,16 +56,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *       description="The Users email"
  *   ),
  *   @OA\Property(
- *       property="tlf",
+ *       property="phone",
  *       type="string",
  *       required={"true"},
- *       description="The Users tlf"
- *   ),
- *   @OA\Property(
- *       property="state",
- *       type="string",
- *       required={"true"},
- *       description="The Users state"
+ *       description="The Users phone"
  *   ),
  *   @OA\Property(
  *       property="password",
@@ -72,31 +73,44 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 class User extends Base implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'ci', 'email', 'tlf', 'state'
+        'name',
+        'lastname',
+        'documents',
+        'email',
+        'phone',
+        'password',
+        'api_token',
+        'remember_token',
+        'updated_at',
+        'created_at'
     ];
-    
     /**
      * The attributes that are filterable.
      *
      * @var array
      */
-
-    public static $filterable = ['name', 'lastname', 'ci', 'email', 'state'];
-
+    public static $filterable = [
+        'user_id',
+        'name',
+        'lastname',
+        'documents',
+        'email'
+    ];
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'api_token'
+        'password',
+        'remember_token',
+        'api_token'
     ];
 
 }
