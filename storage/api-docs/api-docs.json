@@ -221,6 +221,53 @@
             }
         },
         "/users/{documents}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets a User resource",
+                "description": "Gets a User resource",
+                "operationId": "App\\Http\\Controllers\\UsersController::show",
+                "parameters": [
+                    {
+                        "name": "documents",
+                        "in": "path",
+                        "description": "The User resource documents",
+                        "required": true,
+                        "schema": {
+                            "description": "The unique identifier of a User resource",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The resource has been deleted",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "Users"

@@ -142,6 +142,58 @@ class UsersController extends Controller
 
         return  new UsersCollection($users);
     }
+
+    /**
+        * @OA\Get(
+        *   path="/users/{documents}",
+        *   summary="Gets a User resource",
+        *   description="Gets a User resource",
+        *   tags={"Users"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\Parameter(
+        *   name="documents",
+        *   in="path",
+        *   description="The User resource documents",
+        *   required=true,
+        *   @OA\Schema(
+        *       type="string",
+        *       description="The unique identifier of a User resource"
+        *   )
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=204,
+        *   description="The resource has been deleted"
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=401,
+        *   description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response="default",
+        *   description="an ""unexpected"" error"
+        *   )
+        * )
+        *
+        * Remove the specified resource from storage.
+        *
+        * @param  int  $documents
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function show($documents)
+    {
+        $user = User::where('documents', $documents)
+            ->where('documents', $documents)
+            ->first();
+        if ($user) {
+            return response()->json($user, 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
+        }
+    }
     /**
         * @OA\Post(
         *   path="/users",
