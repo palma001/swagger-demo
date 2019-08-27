@@ -113,4 +113,5 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
         'api_token'
     ];
 
+    protected $primaryKey = 'user_id';
 }
