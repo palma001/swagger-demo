@@ -191,6 +191,7 @@ class UsersController extends Controller
                 $user->email = $request->email;
                 $user->phone = $request->phone;
                 $user->password = Hash::make($request->password);
+                $user->status = 'y';
                 $user->api_token = null;
                 $user->save();
                 return response()->json($user, 200);
