@@ -66,7 +66,7 @@ class AuthenticateController extends Controller
         */
     public function authenticate(Request $request) {
         $user = User::where('email', $request->email)->first();
-        if (count($user) > 0) {
+        if ($user) {
             if(Hash::check($request->password, $user->password)){
                 $apikey = $this->jwt($user);
                 User::where('email', $request->email)->update(['api_token' => $apikey]);
