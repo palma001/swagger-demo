@@ -191,7 +191,7 @@ class UsersController extends Controller
         if ($user) {
             return response()->json($user, 200);
         } else {
-            return response()->json(['status' => 'error', 'message' => 'user not register'], 404);
+            return response()->json(['status' => 'error', 'message' => 'user not register'], 204);
         }
     }
     /**
