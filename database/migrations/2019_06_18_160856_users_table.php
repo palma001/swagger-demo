@@ -20,9 +20,9 @@ class UsersTable extends Migration
             $table->string('documents', 10)->unique();
             $table->string('email', 50)->unique();
             $table->string('phone');
-            $table->string('password', 200);
+            $table->string('password', 100);
             $table->string('status', 1);
-            $table->string('api_token', 200)->nullable()->unique();
+            $table->string('api_token', 100)->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });
