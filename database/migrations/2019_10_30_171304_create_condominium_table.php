@@ -16,7 +16,6 @@ class CreateCondominiumTable extends Migration
         Schema::create('condominiums', function (Blueprint $table) {
             $table->bigIncrements('condominium_id');
             $table->string('name');
-            $table->string('last_name');
             $table->string('phone');
             $table->string('email', 40)->unique();
             $table->string('type_condominium');

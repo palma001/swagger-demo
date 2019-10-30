@@ -15,6 +15,14 @@ $router->get('/', function () use ($router) {
 
 $router->group(['', ''], function () use ($router) {
 	$router->group(['prefix' => 'condominiums/'], function ($router) {
+		/**
+		 * Condominius routes
+		 */
+		Route::get('/', 'CondominiumsController@index');
+		Route::post('/', 'CondominiumsController@store');
+		/**
+		 * User routes
+		 */
 		Route::post('authenticate/', 'AuthenticateController@authenticate');
 		Route::get('users/', 'UsersController@index');
 		Route::get('users/{documents}', 'UsersController@show');

@@ -1,15 +1,11 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Http\Resources\UsersCollection;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Auth;
-class UsersController extends Controller
+use App\Models\Condominium;
+use App\Http\Resources\CondominiumsCollection;
+class CondominiumsController extends Controller
 {
     /**
      * validate data of request
@@ -19,26 +15,25 @@ class UsersController extends Controller
      */
     private function validation ($request, $documents) {
         if ($documents !== null) {
-            $unique = Rule::unique('users')->ignore($request->documents, 'documents');
+            $unique = Rule::unique('condominiums')->ignore($request->documents, 'documents');
         } else {
-            $unique = 'unique:users';
+            $unique = 'unique:condominiums';
         }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'lastname' => 'required',
-            'documents' => ['required', 'max:10', $unique],
-            'email' => ['email', 'required', $unique],
             'phone' => 'required',
-            'password' => 'required|min:8'
+            'email' => ['email', 'required', $unique],
+            'type_condominium' => 'required',
+            'active_indicator' => 'required'
         ]);
         return $validator;
     }
-   /**
+    /**
         * @OA\Get(
-        *   path="/users",
-        *   summary="Lists available Users",
-        *   description="Gets all available Users resources",
-        *   tags={"Users"},
+        *   path="/",
+        *   summary="Lists available Condominiums",
+        *   description="Gets all available Condominiums resources",
+        *   tags={"Condominium"},
         *   security={{"passport": {"*"}}},
         *   @OA\Parameter(
         *       name="paginate",
@@ -49,17 +44,17 @@ class UsersController extends Controller
         *           title="Paginate",
         *           example="true",
         *           type="boolean",
-        *           description="The unique identifier of a User resource"
+        *           description="The unique identifier of a Condominium resource"
         *       )
         *   ),
         *   @OA\Parameter(
         *       name="dataSearch",
         *       in="query",
-        *       description="User resource name",
+        *       description="Condominium resource name",
         *       required=false,
         *       @OA\Schema(
         *           type="string",
-        *           description="The unique identifier of a User resource"
+        *           description="The unique identifier of a Condominium resource"
         *       )
         *    ),
         *   @OA\Parameter(
@@ -71,7 +66,7 @@ class UsersController extends Controller
         *           title="name",
         *           type="string",
         *           example="name",
-        *           description="The unique identifier of a User resource"
+        *           description="The unique identifier of a Condominium resource"
         *       )
         *    ),
         *   @OA\Parameter(
@@ -82,7 +77,7 @@ class UsersController extends Controller
         *           title="sortOrder",
         *           example="asc",
         *           type="string",
-        *           description="The unique identifier of a User resource"
+        *           description="The unique identifier of a Condominium resource"
         *       )
         *    ),
         *   @OA\Parameter(
@@ -93,7 +88,7 @@ class UsersController extends Controller
         *           title="perPage",
         *           type="number",
         *           default="0",
-        *           description="The unique identifier of a Users resource"
+        *           description="The unique identifier of a Condominiums resource"
         *       )
         *    ),
         * @OA\Parameter(
@@ -108,7 +103,7 @@ class UsersController extends Controller
         *   @OA\Response(
         *       @OA\MediaType(mediaType="application/json"),
         *       response=200,
-        *       description="A list with Users",
+        *       description="A list with Condominiums",
         *       @OA\Header(
         *       header="X-Auth-Token",
         *       @OA\Schema(
@@ -133,82 +128,30 @@ class UsersController extends Controller
         * Display a listing of the resource.
         *
         * @return \Illuminate\Http\Response
-      */
-    public function index(Request $request) {
-
-        $q = User::select();
-        $users = User::search($request->toArray(), $q);
-        return  new UsersCollection($users);
-    }
-
-    /**
-        * @OA\Get(
-        *   path="/users/{documents}",
-        *   summary="Gets a User resource",
-        *   description="Gets a User resource",
-        *   tags={"Users"},
-        *   security={{"passport": {"*"}}},
-        *   @OA\Parameter(
-        *   name="documents",
-        *   in="path",
-        *   description="The User resource documents",
-        *   required=true,
-        *   @OA\Schema(
-        *       type="string",
-        *       description="The unique identifier of a User resource"
-        *   )
-        *   ),
-        *   @OA\Response(
-        *   @OA\MediaType(mediaType="application/json"),
-        *   response=204,
-        *   description="The resource has been deleted"
-        *   ),
-        *   @OA\Response(
-        *   @OA\MediaType(mediaType="application/json"),
-        *   response=401,
-        *   description="Unauthenticated."
-        *   ),
-        *   @OA\Response(
-        *   @OA\MediaType(mediaType="application/json"),
-        *   response="default",
-        *   description="an ""unexpected"" error"
-        *   )
-        * )
-        *
-        * Remove the specified resource from storage.
-        *
-        * @param  int  $documents
-        *
-        * @return \Illuminate\Http\Response
         */
-    public function show($documents)
+    public function index(Request $request)
     {
-        $user = User::where('documents', $documents)
-            ->where('documents', $documents)
-            ->first();
-        if ($user) {
-            return response()->json($user, 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'user not register'], 204);
-        }
+        $q = Condominium::select();
+        $condominium = Condominium::search($request->toArray(), $q);
+        return  new CondominiumsCollection($condominium);
     }
     /**
         * @OA\Post(
-        *   path="/users",
-        *   summary="Creates a new user",
-        *   description="Creates a new user",
-        *   tags={"Users"},
+        *   path="/",
+        *   summary="Creates a new Condominium",
+        *   description="Creates a new Condominium",
+        *   tags={"Condominium"},
         *   security={{"passport": {"*"}}},
         *   @OA\RequestBody(
         *       @OA\MediaType(
         *           mediaType="application/json",
-        *           @OA\Schema(ref="#/components/schemas/User")
+        *           @OA\Schema(ref="#/components/schemas/Condominium")
         *       )
         *   ),
         *   @OA\Response(
         *       @OA\MediaType(mediaType="application/json"),
         *       response=200,
-        *       description="The User resource created",
+        *       description="The Condominium resource created",
         *   ),
         *   @OA\Response(
         *       @OA\MediaType(mediaType="application/json"),
@@ -228,37 +171,68 @@ class UsersController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         try {
-            if ($this->validation($request, null)->fails()) {
-                $errors = $this->validation($request, null)->errors();
-                return response()->json($errors->all(), 201);
-            } else {
-                $user = new User;
-                $user->name = $request->name;
-                $user->lastname = $request->lastname;
-                $user->documents = $request->documents;
-                $user->email = $request->email;
-                $user->phone = $request->phone;
-                $user->password = Hash::make($request->password);
-                $user->status = 'y';
-                $user->api_token = null;
-                $user->save();
-                return response()->json($user, 200);
-            }
+            
         } catch (Exception $e) {
-            return response()->json($e);
+            return response()->json($e)
         }
     }
     /**
-        * @OA\Put(
-        *   path="/users/{documents}",
-        *   summary="Updates a Users resource",
-        *   description="Updates a Users resource by the documents",
-        *   tags={"Users"},
+        * @OA\Get(
+        *   path="/{condominium_id}",
+        *   summary="Gets a Condominium resource",
+        *   description="Gets a Condominium resource",
+        *   tags={"Condominium"},
         *   security={{"passport": {"*"}}},
         *   @OA\Parameter(
-        *   name="documents",
+        *   name="condominium_id",
+        *   in="path",
+        *   description="The Condominium resource condominium_id",
+        *   required=true,
+        *   @OA\Schema(
+        *       type="number",
+        *       description="The unique identifier of a Condominium resource"
+        *   )
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=204,
+        *   description="The resource has been deleted"
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response=401,
+        *   description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *   @OA\MediaType(mediaType="application/json"),
+        *   response="default",
+        *   description="an ""unexpected"" error"
+        *   )
+        * )
+        *
+        * Remove the specified resource from storage.
+        *
+        * @param  int  $documents
+        *
+        * @return \Illuminate\Http\Response
+        */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+        * @OA\Put(
+        *   path="/{condominium_id}",
+        *   summary="Updates a Users resource",
+        *   description="Updates a Users resource by the condominium_id",
+        *   tags={"Condominium"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\Parameter(
+        *   name="condominium_id",
         *   in="path",
         *   description="User resource id",
         *   required=true,
@@ -270,13 +244,13 @@ class UsersController extends Controller
         *   @OA\RequestBody(
         *       @OA\MediaType(
         *           mediaType="application/json",
-        *           @OA\Schema(ref="#/components/schemas/User")
+        *           @OA\Schema(ref="#/components/schemas/Condominium")
         *       )
         *   ),
         *   @OA\Response(
         *       @OA\MediaType(mediaType="application/json"),
         *           response=200,
-        *           description="The User resource updated"
+        *           description="The Condominium resource updated"
         *       ),
         *       @OA\Response(
         *           @OA\MediaType(mediaType="application/json"),
@@ -293,39 +267,30 @@ class UsersController extends Controller
         * Update the specified resource in storage.
         *
         * @param \Illuminate\Http\Request $request
-        * @param  int  $documents
+        * @param  int  $condominium_id
         *
         * @return \Illuminate\Http\Response
         */
-    public function update(Request $request, $documents)
+    public function update(Request $request, $id)
     {
-        try {
-            if ($this->validation($request, $documents)->fails()) {
-                $errors = $this->validation($request, $documents)->errors();
-                return response()->json($errors->all(), 201);
-            } else {
-                User::where('documents', $documents)->update($request->all());
-                return response()->json($request->all(), 201);
-            }
-        } catch (Exception $e) {
-            return response()->json($e);
-        }
+        //
     }
+
     /**
         * @OA\Delete(
-        *   path="/users/{documents}",
-        *   summary="Removes a User resource",
-        *   description="Removes a User resource",
-        *   tags={"Users"},
+        *   path="/{condominium_id}",
+        *   summary="Removes a Condominium resource",
+        *   description="Removes a Condominium resource",
+        *   tags={"Condominium"},
         *   security={{"passport": {"*"}}},
         *   @OA\Parameter(
-        *   name="documents",
+        *   name="condominium_id",
         *   in="path",
-        *   description="The User resource documents",
+        *   description="The Condominium resource condominium_id",
         *   required=true,
         *   @OA\Schema(
         *       type="string",
-        *       description="The unique identifier of a User resource"
+        *       description="The unique identifier of a Condominium resource"
         *   )
         *   ),
         *   @OA\Response(
@@ -347,37 +312,29 @@ class UsersController extends Controller
         *
         * Remove the specified resource from storage.
         *
-        * @param  int  $documents
+        * @param  int  $condominium_id
         *
         * @return \Illuminate\Http\Response
         */
-    public function destroy($documents)
+    public function destroy($id)
     {
-        $user = User::where('documents', $documents)
-            ->where('status', 'y')
-            ->first();
-        if ($user) {
-            User::where('documents', $documents)->update(['status' => 'n']);
-            return response()->json(['status' => 'success', 'message' => 'user deleted'], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
-        }
+        //
     }
     /**
         * @OA\patch(
-        *   path="/users/{documents}",
-        *   summary="Restore a user resource",
-        *   description="Restore a user resource",
-        *   tags={"Users"},
+        *   path="/{condominium_id}",
+        *   summary="Restore a Condominium resource",
+        *   description="Restore a Condominium resource",
+        *   tags={"Condominium"},
         *   security={{"passport": {"*"}}},
         *   @OA\Parameter(
-        *   name="documents",
+        *   name="condominium_id",
         *   in="path",
-        *   description="The user resource documents",
+        *   description="The Condominium resource condominium_id",
         *   required=true,
         *   @OA\Schema(
         *       type="string",
-        *       description="The unique identifier of a user resource"
+        *       description="The unique identifier of a Condominium resource"
         *   )
         *   ),
         *   @OA\Response(
@@ -399,20 +356,20 @@ class UsersController extends Controller
         *
         * Remove the specified resource from storage.
         *
-        * @param  int  $documents
+        * @param  int  $id
         *
         * @return \Illuminate\Http\Response
         */
-    public function restore($documents)
+    public function restore($id)
     {
-        $user = User::where('documents', $documents)
+        $user = Condominium::where('condominium_id', $documents)
             ->where('status', 'n')
             ->first();
         if ($user) {
-            User::where('documents', $documents)->update(['status' => 'y']);
-            return response()->json(['status' => 'success', 'message' => 'user restored'], 200);
+            Condominium::where('documents', $documents)->update(['status' => 'y']);
+            return response()->json(['status' => 'success', 'message' => 'Condominium restored'], 200);
         } else {
-            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
+            return response()->json(['status' => 'error', 'message' => 'Condominium not register'], 401);
         }
     }
 }
