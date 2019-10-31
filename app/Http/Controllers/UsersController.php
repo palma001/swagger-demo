@@ -241,7 +241,7 @@ class UsersController extends Controller
                 $user->email = $request->email;
                 $user->phone = $request->phone;
                 $user->password = Hash::make($request->password);
-                $user->status = 'y';
+                $user->active_indicator = 'y';
                 $user->api_token = null;
                 $user->save();
                 return response()->json($user, 200);
@@ -361,10 +361,10 @@ class UsersController extends Controller
     public function destroy($documents)
     {
         $user = User::where('documents', $documents)
-            ->where('status', 'y')
+            ->where('active_indicator', 'y')
             ->first();
         if ($user) {
-            User::where('documents', $documents)->update(['status' => 'n']);
+            User::where('documents', $documents)->update(['active_indicator' => 'n']);
             return response()->json(['status' => 'success', 'message' => 'user deleted'], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
