@@ -67,8 +67,8 @@ class AuthenticateController extends Controller
     public function authenticate(Request $request) {
         $user = User::where('active_indicator', 'y')
                     ->where(function ($q) use ($request){
-                        $q->orWhere('email', $request->email)
-                        $q->orWhere('document', $request->document)
+                        $q->orWhere('email', $request->email);
+                        $q->orWhere('document', $request->document);
                     })->first();
         if ($user) {
             if(Hash::check($request->password, $user->password)){
