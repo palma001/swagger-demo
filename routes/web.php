@@ -31,5 +31,8 @@ $router->group(['', ''], function () use ($router) {
 		$router->get('/', 'CondominiumsController@index');
 		$router->post('/', 'CondominiumsController@store');
 		$router->get('/{condominiums_id}', 'CondominiumsController@show');
+		$router->put('/{condominiums_id}', 'CondominiumsController@update');
+		$router->delete('/{condominiums_id}', 'CondominiumsController@destroy');
+		$router->patch('/{condominiums_id}', 'CondominiumsController@restore');
 	});
 });

@@ -22,13 +22,15 @@ class Base extends Model
         	$fields = json_decode($data['dataSearch'], true);
         	$fields = array_filter($fields, 'strlen');
         	$fields = array_only($fields, static::$filterable);
-	        foreach ($fields as $field => $value) {
-	            if (isset($fields[$field])) {
-	                $q->orWhere($field, 'LIKE', "%$fields[$field]%")->orderBy($data['sortField'], $data['sortOrder']);
-	            }
-	        }
+        	$q->where(function (Builder $query) use ($fields) {
+		        foreach ($fields as $field => $value) {
+		            if (isset($fields[$field])) {
+		                $query->orWhere($field, 'LIKE', "%$fields[$field]%")->orderBy($data['sortField'], $data['sortOrder']);
+		            }
+		        }
+        	});
     	}
-
+        $q->where('active_indicator', 'y');
         if ($data['paginate'] === "true") {
         	return $q->paginate($data['perPage']);
         } else {

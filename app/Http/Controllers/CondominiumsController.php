@@ -7,6 +7,7 @@ use App\Models\Condominium;
 use App\Http\Resources\CondominiumsCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Exception;
 class CondominiumsController extends Controller
 {
     /**
@@ -231,14 +232,11 @@ class CondominiumsController extends Controller
         try {
             $condominium = Condominium::where('condominium_id', $id)->first();
             if (count($condominium) <= 0) {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'There is no record'
-                ], 404);
+                throw new Exception('Data no found');
             }
             return response()->json($condominium, 200); 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500); 
+            return response()->json($e->getMessage(), 404);
         }
     }
 
@@ -291,7 +289,24 @@ class CondominiumsController extends Controller
         */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $condominium = Condominium::where('condominium_id', $id)->update($request->all());
+            if ($condominium > 0) {
+                return response()->json(
+                    [
+                        'message' => 'Updated successfull',
+                        'data' => $request->all()
+                    ],
+                    200
+                );
+            }
+            throw new Exception('Error update');
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 
     /**
@@ -336,7 +351,23 @@ class CondominiumsController extends Controller
         */
     public function destroy($id)
     {
-        //
+        try {
+            $condominium = Condominium::where('condominium_id', $id)->update(['active_indicator' => 'n']);
+            if ($condominium > 0) {
+                return response()->json(
+                    [
+                        'message' => 'Delete successfull'
+                    ],
+                    200
+                );
+            }
+            throw new Exception('Error Delete');
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
     /**
         * @OA\patch(
@@ -380,14 +411,22 @@ class CondominiumsController extends Controller
         */
     public function restore($id)
     {
-        $user = Condominium::where('condominium_id', $documents)
-            ->where('status', 'n')
-            ->first();
-        if ($user) {
-            Condominium::where('documents', $documents)->update(['status' => 'y']);
-            return response()->json(['status' => 'success', 'message' => 'Condominium restored'], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'Condominium not register'], 401);
+        try {
+            $condominium = Condominium::where('condominium_id', $id)->update(['active_indicator' => 'y']);
+            if ($condominium > 0) {
+                return response()->json(
+                    [
+                        'message' => 'Restore successfull'
+                    ],
+                    200
+                );
+            }
+            throw new Exception('Error restore');
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 400);
         }
     }
 }
