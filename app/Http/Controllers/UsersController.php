@@ -361,7 +361,7 @@ class UsersController extends Controller
     public function destroy($documents)
     {
         $user = User::where('documents', $documents)
-            ->where('active_indicator', 'y')
+            ->where('active_indicator', 'n')
             ->first();
         if ($user) {
             User::where('documents', $documents)->update(['active_indicator' => 'n']);
@@ -413,10 +413,10 @@ class UsersController extends Controller
     public function restore($documents)
     {
         $user = User::where('documents', $documents)
-            ->where('status', 'n')
+            ->where('active_indicator', 'y')
             ->first();
         if ($user) {
-            User::where('documents', $documents)->update(['status' => 'y']);
+            User::where('documents', $documents)->update(['active_indicator' => 'y']);
             return response()->json(['status' => 'success', 'message' => 'user restored'], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
