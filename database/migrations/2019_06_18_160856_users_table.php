@@ -21,7 +21,7 @@ class UsersTable extends Migration
             $table->string('email', 50)->unique();
             $table->string('phone');
             $table->string('password', 100);
-            $table->string('status', 1);
+            $table->string('active_indicator', 1);
             $table->string('api_token', 200)->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
