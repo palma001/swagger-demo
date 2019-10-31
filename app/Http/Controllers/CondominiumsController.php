@@ -229,7 +229,13 @@ class CondominiumsController extends Controller
     public function show($id)
     {
         try {
-            $condominium = Condominium::where('condominium_id', $id)->firstOrFail();
+            $condominium = Condominium::where('condominium_id', $id)->first();
+            if (count($condominium) <= 0) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'There is no record'
+                ], 404);
+            }
             return response()->json($condominium, 200); 
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500); 
