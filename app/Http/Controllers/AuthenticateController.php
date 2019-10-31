@@ -68,13 +68,13 @@ class AuthenticateController extends Controller
         $user = User::where('active_indicator', 'y')
                     ->where(function ($q) use ($request) {
                         $q->orWhere('email', $request->email)
-                        ->orWhere('document', $request->email);
+                        ->orWhere('documents', $request->email);
                     })->first();
         if ($user) {
             if(Hash::check($request->password, $user->password)){
                 $apikey = $this->jwt($user);
                 User::where('email', $request->email)
-                    ->orWhere('document', $request->email)
+                    ->orWhere('documents', $request->email)
                     ->update(['api_token' => $apikey]);
                 return response()->json(['status' => 'success','api_token' => $apikey], 200);
             } else {
