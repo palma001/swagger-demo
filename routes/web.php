@@ -16,12 +16,6 @@ $router->get('/', function () use ($router) {
 $router->group(['', ''], function () use ($router) {
 	$router->group(['prefix' => 'condominiums/'], function ($router) {
 		/**
-		 * Condominius routes
-		 */
-		$router->get('/', 'CondominiumsController@index');
-		$router->post('/', 'CondominiumsController@store');
-		$router->get('/{condominiums_id}', 'CondominiumsController@show');
-		/**
 		 * User routes
 		 */
 		$router->post('authenticate/', 'AuthenticateController@authenticate');
@@ -31,5 +25,11 @@ $router->group(['', ''], function () use ($router) {
 		$router->put('users/{documents}', 'UsersController@update');
 		$router->delete('users/{documents}', 'UsersController@destroy');
 		$router->patch('users/{documents}', 'UsersController@restore');
+		/**
+		 * Condominius routes
+		 */
+		$router->get('/', 'CondominiumsController@index');
+		$router->post('/', 'CondominiumsController@store');
+		$router->get('/{condominiums_id}', 'CondominiumsController@show');
 	});
 });
