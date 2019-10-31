@@ -22,7 +22,7 @@ class UsersTable extends Migration
             $table->string('phone');
             $table->string('password', 100);
             $table->string('active_indicator', 1);
-            $table->string('api_token', 200)->nullable()->unique();
+            $table->string('api_token', 180)->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });
