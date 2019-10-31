@@ -787,13 +787,6 @@
                         ],
                         "type": "string"
                     },
-                    "last_name": {
-                        "description": "The Condominium last_name",
-                        "required": [
-                            "true"
-                        ],
-                        "type": "string"
-                    },
                     "phone": {
                         "description": "The Condominium phone",
                         "required": [

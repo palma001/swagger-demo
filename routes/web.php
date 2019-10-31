@@ -10,7 +10,7 @@
 |
 */
 $router->get('/', function () use ($router) {
-    return redirect('api/swagger-demo');
+    return redirect('api/api-docs');
 });
 
 $router->group(['', ''], function () use ($router) {
@@ -18,17 +18,18 @@ $router->group(['', ''], function () use ($router) {
 		/**
 		 * Condominius routes
 		 */
-		Route::get('/', 'CondominiumsController@index');
-		Route::post('/', 'CondominiumsController@store');
+		$router->get('/', 'CondominiumsController@index');
+		$router->post('/', 'CondominiumsController@store');
+		$router->get('/{condominiums_id}', 'CondominiumsController@show');
 		/**
 		 * User routes
 		 */
-		Route::post('authenticate/', 'AuthenticateController@authenticate');
-		Route::get('users/', 'UsersController@index');
-		Route::get('users/{documents}', 'UsersController@show');
-		Route::post('users/', 'UsersController@store');
-		Route::put('users/{documents}', 'UsersController@update');
-		Route::delete('users/{documents}', 'UsersController@destroy');
-		Route::patch('users/{documents}', 'UsersController@restore');
+		$router->post('authenticate/', 'AuthenticateController@authenticate');
+		$router->get('users/', 'UsersController@index');
+		$router->get('users/{documents}', 'UsersController@show');
+		$router->post('users/', 'UsersController@store');
+		$router->put('users/{documents}', 'UsersController@update');
+		$router->delete('users/{documents}', 'UsersController@destroy');
+		$router->patch('users/{documents}', 'UsersController@restore');
 	});
 });

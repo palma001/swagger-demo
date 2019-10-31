@@ -17,12 +17,6 @@ class Condominium extends Base
 	 *       description="The Condominium name"
 	 *   ),
 	 *   @OA\Property(
-	 *       property="last_name",
-	 *       type="string",
-	 *       required={"true"},
-	 *       description="The Condominium last_name"
-	 *   ),
-	 *   @OA\Property(
 	 *       property="phone",
 	 *       type="string",
 	 *       required={"true"},

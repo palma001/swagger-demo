@@ -20,8 +20,8 @@ class CreateOwnershipsTable extends Migration
             $table->string('ownership_description');
             $table->string('status_ownership');
             $table->string('active_indicator', 1);
-            $table->string('create_by', 1)->nullable();
-            $table->string('update_by', 1)->nullable();
+            $table->string('create_by', 40)->nullable();
+            $table->string('update_by', 40)->nullable();
             $table->timestamps();
             $table->foreign('condominium_id')
                   ->references('condominium_id')

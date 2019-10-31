@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Condominium;
 use App\Http\Resources\CondominiumsCollection;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 class CondominiumsController extends Controller
 {
     /**
@@ -13,9 +15,9 @@ class CondominiumsController extends Controller
      * @param  [String] $documents number documents
      * @return [Function]  function validator
      */
-    private function validation ($request, $documents) {
-        if ($documents !== null) {
-            $unique = Rule::unique('condominiums')->ignore($request->documents, 'documents');
+    private function validation ($request, $id) {
+        if ($id !== null) {
+            $unique = Rule::unique('condominiums')->ignore($request->condominium_id, 'documents');
         } else {
             $unique = 'unique:condominiums';
         }
@@ -24,7 +26,7 @@ class CondominiumsController extends Controller
             'phone' => 'required',
             'email' => ['email', 'required', $unique],
             'type_condominium' => 'required',
-            'active_indicator' => 'required'
+            'active_indicator' => 'required|max:1'
         ]);
         return $validator;
     }
@@ -174,9 +176,14 @@ class CondominiumsController extends Controller
     public function store(Request $request)
     {
         try {
-            
+            if ($this->validation($request, null)->fails()) {
+                $errors = $this->validation($request, null)->errors();
+                return response()->json($errors->all(), 400);
+            }
+            $condominium = Condominium::create($request->all());
+            return response()->json($condominium, 201);
         } catch (Exception $e) {
-            return response()->json($e)
+            return response()->json($e->getMessage(), 500);
         }
     }
     /**
@@ -221,7 +228,12 @@ class CondominiumsController extends Controller
         */
     public function show($id)
     {
-        //
+        try {
+            $condominium = Condominium::where('condominium_id', $id)->firstOrFail();
+            return response()->json($condominium, 200); 
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500); 
+        }
     }
 
     /**

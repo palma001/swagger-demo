@@ -304,8 +304,15 @@ class UsersController extends Controller
                 $errors = $this->validation($request, $documents)->errors();
                 return response()->json($errors->all(), 201);
             } else {
-                User::where('documents', $documents)->update($request->all());
-                return response()->json($request->all(), 201);
+                $user = User::where('documents', $documents)->update([
+                    'name' =>  $request->name,
+                    'lastname' =>  $request->lastname,
+                    'documents' =>  $request->documents,
+                    'email' = $request->email,
+                    'phone' = $request->phone,
+                    'password' = Hash::make($request->password)
+                ]);
+                return response()->json($user, 201);
             }
         } catch (Exception $e) {
             return response()->json($e);

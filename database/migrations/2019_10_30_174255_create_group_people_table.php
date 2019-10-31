@@ -23,8 +23,8 @@ class CreateGroupPeopleTable extends Migration
             $table->string('phone_home');
             $table->string('email', 40)->unique();
             $table->string('active_indicator', 1);
-            $table->string('create_by', 1)->nullable();
-            $table->string('update_by', 1)->nullable();
+            $table->string('create_by', 40)->nullable();
+            $table->string('update_by', 40)->nullable();
             $table->timestamps();
             $table->foreign('owner_id')
                   ->references('owner_id')
