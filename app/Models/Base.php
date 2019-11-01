@@ -22,7 +22,7 @@ class Base extends Model
         	$fields = json_decode($data['dataSearch'], true);
         	$fields = array_filter($fields, 'strlen');
         	$fields = array_only($fields, static::$filterable);
-        	$q->where(function ($query) use ($fields) {
+        	$q->where(function ($query) use ($fields, $data) {
 		        foreach ($fields as $field => $value) {
 		            if (isset($fields[$field])) {
 		                $query->orWhere($field, 'LIKE', "%$fields[$field]%")->orderBy($data['sortField'], $data['sortOrder']);
