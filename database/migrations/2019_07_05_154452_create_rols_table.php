@@ -15,9 +15,16 @@ class CreateRolsTable extends Migration
     {
         Schema::create('rols', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('short_name')->unique();
             $table->string('name');
-            $table->json('permission');
+            $table->unsignedBigInteger('created_by')->unsigned();
+            $table->unsignedBigInteger('updated_by')->unsigned()->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

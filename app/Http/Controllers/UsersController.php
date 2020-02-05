@@ -140,7 +140,111 @@ class UsersController extends Controller
         $users = User::search($request->toArray(), $q);
         return  new UsersCollection($users);
     }
-
+    /**
+        * @OA\Get(
+        *   path="/permissions",
+        *   summary="Lists available Users permissions",
+        *   description="Gets all available Users permissions",
+        *   tags={"Users"},
+        *   security={{"passport": {"*"}}},
+        *   @OA\Parameter(
+        *       name="paginate",
+        *       in="query",
+        *       description="paginate",
+        *       required=false,
+        *       @OA\Schema(
+        *           title="Paginate",
+        *           example="true",
+        *           type="boolean",
+        *           description="The unique identifier of a User permissions"
+        *       )
+        *   ),
+        *   @OA\Parameter(
+        *       name="dataSearch",
+        *       in="query",
+        *       description="User permissions name",
+        *       required=false,
+        *       @OA\Schema(
+        *           type="string",
+        *           description="The unique identifier of a User permissions"
+        *       )
+        *    ),
+        *   @OA\Parameter(
+        *       name="sortField",
+        *       in="query",
+        *       description="Sort field",
+        *       required=false,
+        *       @OA\Schema(
+        *           title="name",
+        *           type="string",
+        *           example="name",
+        *           description="The unique identifier of a User resource"
+        *       )
+        *    ),
+        *   @OA\Parameter(
+        *       name="sortOrder",
+        *       in="query",
+        *       description="Sort order field",
+        *       @OA\Schema(
+        *           title="sortOrder",
+        *           example="asc",
+        *           type="string",
+        *           description="The unique identifier of a User resource"
+        *       )
+        *    ),
+        *   @OA\Parameter(
+        *       name="perPage",
+        *       in="query",
+        *       description="Sort order field",
+        *       @OA\Schema(
+        *           title="perPage",
+        *           type="number",
+        *           default="0",
+        *           description="The unique identifier of a Users resource"
+        *       )
+        *    ),
+        * @OA\Parameter(
+        *     name="authorization",
+        *     in="header",
+        *     description="authorization",
+        *     @OA\Schema(
+        *         title="authorization",
+        *         type="string",
+        *     )
+        * ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response=200,
+        *       description="A list with Users",
+        *       @OA\Header(
+        *       header="X-Auth-Token",
+        *       @OA\Schema(
+        *           type="integer",
+        *           format="int32"
+        *       ),
+        *       description="calls per hour allowed by the user"
+        *     ),
+        *   ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response=401,
+        *       description="Unauthenticated."
+        *   ),
+        *   @OA\Response(
+        *       @OA\MediaType(mediaType="application/json"),
+        *       response="default",
+        *       description="an ""unexpected"" error"
+        *   ),
+        * )
+        *
+        * Display a listing of the resource.
+        *
+        * @return \Illuminate\Http\Response
+      */
+    public function permissions(Request $request) {
+        $users = User::with('condominiums')->get();
+        return response()->json($users);
+    }
     /**
         * @OA\Get(
         *   path="/users/{documents}",
@@ -358,13 +462,11 @@ class UsersController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-    public function destroy($documents)
+    public function destroy($id)
     {
-        $user = User::where('documents', $documents)
-            ->where('active_indicator', 'y')
-            ->first();
+        $user = User::where('id', $id)->first();
         if ($user) {
-            User::where('documents', $documents)->update(['active_indicator' => 'n']);
+            User::where('id', $id)->delete();
             return response()->json(['status' => 'success', 'message' => 'user deleted'], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
@@ -410,16 +512,9 @@ class UsersController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-    public function restore($documents)
+    public function restore($id)
     {
-        $user = User::where('documents', $documents)
-            ->where('active_indicator', 'n')
-            ->first();
-        if ($user) {
-            User::where('documents', $documents)->update(['active_indicator' => 'y']);
-            return response()->json(['status' => 'success', 'message' => 'user restored'], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'user not register'], 401);
-        }
+        User::where('id', $id)->restore();
+        return response()->json(['status' => 'success', 'message' => 'user restored'], 200);
     }
 }

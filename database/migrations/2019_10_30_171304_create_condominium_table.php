@@ -22,15 +22,15 @@ class CreateCondominiumTable extends Migration
             $table->boolean('active');
 
             $table->unsignedBigInteger('type_condominium_id')->unsigned();
-            $table->unsignedBigInteger('create_by')->unsigned();
-            $table->unsignedBigInteger('update_by')->unsigned()->nullable();
+            $table->unsignedBigInteger('created_by')->unsigned();
+            $table->unsignedBigInteger('updated_by')->unsigned()->nullable();
 
-            $table->foreign('create_by')->references('id')->on('users');
-            $table->foreign('update_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
             $table->foreign('type_condominium_id')->references('id')->on('condominium_types');
             
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

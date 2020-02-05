@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Condominium extends Base
 {
@@ -55,12 +56,6 @@ class Condominium extends Base
 	 * )
 	 */
     protected $table = 'condominiums';
-	/**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'condominium_id';
     /**
      * The attributes that aren't mass assignable.
      *
@@ -82,4 +77,10 @@ class Condominium extends Base
         'type_condominium',
         'active_indicator'
     ];
+    // Relationships
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+            ->using(CondominiumRolUser::class);
+    }
 }

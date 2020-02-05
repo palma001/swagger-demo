@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeCondominiaTable extends Migration
+class CreateCondominiumTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,11 +17,11 @@ class CreateTypeCondominiaTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 50)->unique();
             $table->string('description');
-            $table->unsignedBigInteger('create_by')->unsigned();
-            $table->unsignedBigInteger('update_by')->unsigned()->nullable();
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign('create_by')->references('id')->on('users');
-            $table->foreign('update_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
 
             $table->softDeletes();
             $table->timestamps();
@@ -35,6 +35,6 @@ class CreateTypeCondominiaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_condominiums');
+        Schema::dropIfExists('condominium_types');
     }
 }

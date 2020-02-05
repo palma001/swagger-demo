@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Condominium;
 use Illuminate\Auth\Authenticatable;
-use Laravel\Lumen\Auth\Authorizable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Lumen\Auth\Authorizable;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @OA\Schema(
@@ -73,17 +76,15 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 class User extends Base implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
-        'lastname',
-        'documents',
+        'username',
         'email',
-        'phone',
         'password',
         'api_token',
         'remember_token',
@@ -96,10 +97,7 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
      * @var array
      */
     public static $filterable = [
-        'user_id',
-        'name',
-        'lastname',
-        'documents',
+        'username',
         'email'
     ];
     /**
@@ -113,5 +111,16 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
         'api_token'
     ];
 
-    protected $primaryKey = 'user_id';
+    //Relationships
+    public function roles()
+    {
+        return $this->belongsToMany(Rol::class, 'condominium_rol_users', 'user_id', 'rol_id')
+            ->using(CondominiumRolUser::class);
+    }
+
+    public function condominiums()
+    {
+        return $this->belongsToMany(Condominium::class, 'condominium_rol_users', 'user_id', 'condominium_id')
+            ->using(CondominiumRolUser::class);
+    }
 }

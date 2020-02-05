@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\Pivot;
 class Base extends Model
 {
 	public static $filterable = [];
@@ -30,7 +30,6 @@ class Base extends Model
 		        }
         	});
     	}
-        $q->where('active_indicator', 'y');
         if ($data['paginate'] === "true") {
         	return $q->paginate($data['perPage']);
         } else {
