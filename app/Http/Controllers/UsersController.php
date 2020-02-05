@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Http\Resources\UsersCollection;
+use App\Models\Rol;
+use App\Models\User;
+use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Auth;
 class UsersController extends Controller
 {
     /**
@@ -242,7 +243,7 @@ class UsersController extends Controller
         * @return \Illuminate\Http\Response
       */
     public function permissions(Request $request) {
-        $users = User::with('condominiums')->get();
+        $users = Rol::with('modules')->get();
         return response()->json($users);
     }
     /**

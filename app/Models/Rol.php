@@ -14,13 +14,26 @@ class Rol extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'condominium_rol_users', 'rol_id', 'user_id')
-            ->using(CondominiumRolUser::class)/* 
-            ->where('school_id', session('schoolId')) */;
+            ->using(CondominiumRolUser::class);
     }
 
     public function condominiums()
     {
         return $this->belongsToMany(Condominium::class, 'condominium_rol_users', 'user_id', 'condominium_id')
             ->using(CondominiumRolUser::class);
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'module_rols')
+            ->using(ModuleRol::class)
+            ->withPivot([
+                'permissions'
+            ]);
+    }
+
+    public function moduleRol()
+    {
+        return $this->hasMany(ModuleRol::class, 'rol_id', 'id');
     }
 }
