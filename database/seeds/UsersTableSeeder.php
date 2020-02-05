@@ -14,14 +14,16 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => Str::random(10),
-            'lastname' => Str::random(10),
-            'documets' => Str::random(10),
-            'email' => Str::random(10).'@gmail.com',
-            'phone' => Str::random(10),
-            'password' => Hash::make('secret'),
-            'api_token' => Str::random(50),
-        ]);
+        DB::table('users')->insert(
+            [
+                'name' => Str::random(10),
+                'lastname' => Str::random(10),
+                'documets' => Str::random(10),
+                'email' => Str::random(10).'@gmail.com',
+                'phone' => Str::random(10),
+                'password' => Hash::make('secret'),
+                'api_token' => Str::random(50)
+            ]
+        );
     }
 }

@@ -14,16 +14,26 @@ class UsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('user_id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('lastname');
             $table->string('documents', 10)->unique();
             $table->string('email', 50)->unique();
             $table->string('phone');
             $table->string('password', 100);
-            $table->string('active_indicator', 1);
+            $table->boolean('active');
             $table->string('api_token', 180)->nullable()->unique();
             $table->rememberToken();
+
+            $table->unsignedBigInteger('create_by')->unsigned();
+            $table->unsignedBigInteger('update_by')->unsigned()->nullable();
+            $table->unsignedBigInteger('rol')->unsigned()->nullable();
+
+            $table->foreign('rol')->references('id')->on('rols');
+            $table->foreign('create_by')->references('id')->on('users');
+            $table->foreign('update_by')->references('id')->on('users');
+
+            $table->softDeletes(0);
             $table->timestamps();
         });
     }
